@@ -1,0 +1,472 @@
+<!DOCTYPE html>
+<html lang="en" >
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Betahita Foto</title>
+    <link href="style/output.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://unpkg.com/tippy.js@6/dist/tippy.css" />
+    <script
+    src="https://cdn.jsdelivr.net/npm/@ryangjchandler/alpine-tooltip@1.x.x/dist/cdn.min.js"
+    defer
+    ></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+    <script  src="js/dark.js"></script>
+
+    <link rel="stylesheet" href="https://unpkg.com/swiper@6.8.4/swiper-bundle.min.css">
+   
+
+</head>
+<body class="font-sans dark:bg-black bg-gray-100">
+    
+    <div class="w-full bg-black fixed top-0 z-30 ">
+        <div class="flex justify-between max-w-6xl mx-auto items-center py-1">
+            <img src="assets/logo.png" alt="betahita foto" class="h-16">
+            <div class="flex space-x-4 items-center" 
+            x-data="{cart:false}"
+            >
+
+                <!-- lang -->
+                <div class="dropdown relative" x-data="{
+                            isOpen: false,
+                            selected: 0,
+                            placeholder: 'Dropdown example',
+                            dropdownItems: [
+                                {id: 0, text: 'ID', logo: 'assets/id.png'},
+                                {id: 1, text: 'EN', logo: 'assets/en.png'},    
+                            ],
+                            isSelected(e) {
+                                console.log(e)
+                            }
+                        }">
+                          
+                          <div class="btn pl-4 pr-2 py-1 bg-black border  inline-flex" role="button" x-on:click="isOpen = !isOpen">
+                            
+                            <div class="flex space-x-2 items-center px-2 text-sm" @click="isOpen = false; selected = item.id" >
+                                <img :src="dropdownItems[selected].logo" alt="betahita poto" class="h-4">
+                                <span class="flex-grow-1 select-none pointer-events-none text-white" x-text="dropdownItems[selected].text || placeholder"></span>
+                            </div>
+                            <!-- .icon -->
+                            <span class="icon">
+                              <svg class="" x-bind:class="{'transform rotate-180': isOpen}" width="24" height="24" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                               <path d="M15.3001 9.30001C15.4927 9.15558 15.7309 9.08546 15.971 9.10252C16.2111 9.11959 16.437 9.22269 16.6072 9.3929C16.7774 9.56311 16.8805 9.78901 16.8976 10.0291C16.9146 10.2692 16.8445 10.5074 16.7001 10.7L12.7001 14.7C12.5132 14.8832 12.2619 14.9859 12.0001 14.9859C11.7383 14.9859 11.487 14.8832 11.3001 14.7L7.3001 10.7C7.15567 10.5074 7.08555 10.2692 7.10261 10.0291C7.11968 9.78901 7.22278 9.56311 7.39299 9.3929C7.5632 9.22269 7.7891 9.11959 8.02921 9.10252C8.26932 9.08546 8.50753 9.15558 8.7001 9.30001L12.0001 12.59L15.3001 9.29001V9.30001Z" fill="#4A5568"/>
+                              </svg>
+                            </span>
+                            <!-- ./icon -->
+                        </div>
+                        
+                        <div 
+
+                           x-show="isOpen"  
+                           class="bg-black absolute left-0  py-2 mt-1 border flex flex-col space-y-2 w-full z-10" 
+                           style="top: 100%; display: none !important;"
+                           x-on:click.away="isOpen = false"
+                        >
+                          
+                          <template x-for="item in dropdownItems" :key="item.id">
+                                <div class="flex space-x-2 items-center px-2 text-sm select-none cursor-pointer" @click="isOpen = false; selected = item.id" >
+                                    <img :src="item.logo" alt="betahita poto" class="h-4">
+                                    <a href="#" class="select-none text-gray-500 mr-4" 
+                                    x-bind:class="{'text-white' : selected == item.id}" x-text="item.text"></a>
+                                </div>
+                               
+                          </template>
+                         
+                        </div>
+                      
+                </div> <!-- ./dropdown -->
+                    
+                <!-- toogle theme -->
+                <button
+                        id="theme-toggle"
+                        type="button"
+                        class="text-gray-500 dark:text-gray-400  rounded-lg text-sm p-2.5"
+                        >
+
+                        <svg
+                            id="theme-toggle-dark-icon"
+                            class="w-6 h-6 hidden"
+                            fill="white"
+                            viewBox="0 0 20 20"
+                            xmlns="http://www.w3.org/2000/svg"
+                        >
+                            <path
+                            d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z"
+                            ></path>
+                        </svg>
+                        <svg
+                            id="theme-toggle-light-icon"
+                            class="w-6 h-6 hidden"
+                            fill="white"
+                            viewBox="0 0 20 20"
+                            xmlns="http://www.w3.org/2000/svg"
+                        >
+                            <path
+                            d="M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0zm-.464 4.95l.707.707a1 1 0 001.414-1.414l-.707-.707a1 1 0 00-1.414 1.414zm2.12-10.607a1 1 0 010 1.414l-.706.707a1 1 0 11-1.414-1.414l.707-.707a1 1 0 011.414 0zM17 11a1 1 0 100-2h-1a1 1 0 100 2h1zm-7 4a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zM5.05 6.464A1 1 0 106.465 5.05l-.708-.707a1 1 0 00-1.414 1.414l.707.707zm1.414 8.486l-.707.707a1 1 0 01-1.414-1.414l.707-.707a1 1 0 011.414 1.414zM4 11a1 1 0 100-2H3a1 1 0 000 2h1z"
+                            fill-rule="evenodd"
+                            clip-rule="evenodd"
+                            ></path>
+                        </svg>
+                </button>
+                
+                <!-- cart -->
+                <div class="mx-auto">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="white" class="w-6 h-6">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M2.25 3h1.386c.51 0 .955.343 1.087.835l.383 1.437M7.5 14.25a3 3 0 00-3 3h15.75m-12.75-3h11.218c1.121-2.3 2.1-4.684 2.924-7.138a60.114 60.114 0 00-16.536-1.84M7.5 14.25L5.106 5.272M6 20.25a.75.75 0 11-1.5 0 .75.75 0 011.5 0zm12.75 0a.75.75 0 11-1.5 0 .75.75 0 011.5 0z" />
+                      </svg>                      
+                </div>
+
+                <!-- account -->
+                <div>
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="white" class="w-6 h-6">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M17.982 18.725A7.488 7.488 0 0012 15.75a7.488 7.488 0 00-5.982 2.975m11.963 0a9 9 0 10-11.963 0m11.963 0A8.966 8.966 0 0112 21a8.966 8.966 0 01-5.982-2.275M15 9.75a3 3 0 11-6 0 3 3 0 016 0z" />
+                      </svg>
+                      
+                </div>
+            </div>
+            
+              
+        </div>
+    </div>
+
+    <div class="relative h-hero mt-12">
+        <div class=" flex w-full h-hero justify-center items-center absolute">
+            <div class="flex flex-col justify-center items-center  w-full">
+                <h1 class="text-white font-bold text-7xl tracking-wide">Indonesia Dalam Lensa</h1>
+                <h2 class="text-white text-3xl tracking-wide mt-4">Visual Manifesto</h2>
+                <div class="relative mt-6 flex  justify-end">
+                    <div class="h-full  py-2 px-4 bg-search absolute  flex items-center border-black">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607z" />
+                          </svg>                          
+                    </div>
+                    <input placeholder="Mulai Pencarian..." type="text"  class="w-input-hero border border-black focus:outline-none px-4 py-3 text-sm text-gray-400" >
+                </div>
+            </div>
+            
+        </div>
+        <img src="assets/hero.jpg" alt="image"   class="h-full w-full object-cover object-top"/>
+    </div>
+
+    <!-- content 1 -->
+    <div class="max-w-6xl mx-auto mt-6 px-4 py-4">
+        <h1 class="font-bold dark:text-newgray-200 text-black">JELAJAH NUSANTARA</h1>
+        <p class=" mt-1 dark:text-gray-500 mb-10">Koleksi foto kondisi alam dan keanekaragaman hayati, dari Sabang hingga Merauke</p>
+        <div    x-data="{swiper: null, control: false}"
+                x-init="swiper = new Swiper($refs.container, {
+                    loop: true,
+                    slidesPerView: 1,
+                    spaceBetween: 0,
+                
+                    breakpoints: {
+                        640: {
+                        slidesPerView: 1,
+                        spaceBetween: 0,
+                        },
+                        768: {
+                        slidesPerView: 2,
+                        spaceBetween: 10,
+                        },
+                        1024: {
+                        slidesPerView: 4,
+                        spaceBetween: 10,
+                        },
+                    },
+                    })"
+                    class="relative w-full mx-auto flex flex-row mt-4  space-x-1"
+                    @mouseenter="control=true"
+                    @mouseleave="control=false"
+                >
+            <div class="absolute inset-y-0 left-0 z-20 flex items-center " x-show="control" style="display: none !important;">
+                <button @click="swiper.slidePrev()" 
+                        class="bg-white -ml-4 text-black hover:text-gray-300  flex justify-center items-center w-10 h-10 rounded-full shadow focus:outline-none">
+                <svg viewBox="0 0 20 20" fill="currentColor" class="chevron-left w-6 h-6"><path fill-rule="evenodd" d="M12.707 5.293a1 1 0 010 1.414L9.414 10l3.293 3.293a1 1 0 01-1.414 1.414l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 0z" clip-rule="evenodd"></path></svg>
+                </button>
+            </div>
+
+            <div class="swiper-container " x-ref="container">
+                <div class="swiper-wrapper">
+                    <div class="swiper-slide dark:bg-newgray-800 dark:bg-opacity-4 bg-white  grid grid-cols-1   h-full ">
+                        <div class="relative h-52">
+                            <a class="absolute bottom-2 right-4 text-gray-200 text-sm">HD</a>
+                            <img src="assets/1.jpg" alt="betahita foto" class="h-full w-full object-cover object-center">
+                        </div>
+                        <div class=" py-6 px-5 dark:text-newgray-300 text-black">
+                            <a class=" font-semibold tracker-wide">HUTAM ALAM,</a>
+                            <p class=" font-semibold">SUMATERA UTARA</p>
+                            <p class="mt-4 text-sm">
+                                Hutan alam yang masih dijaga oleh masyarakat desa Simataniari, Sumatera Utara
+                            </p>
+                        </div>
+                    </div>
+                    <div class="swiper-slide dark:bg-newgray-800 dark:bg-opacity-4 bg-white  grid grid-cols-1   h-full ">
+                        <div class="relative h-52">
+                            <a class="absolute bottom-2 right-4 text-gray-200 text-sm">HD</a>
+                            <img src="assets/2.jpg" alt="betahita foto" class="h-full w-full object-cover object-center">
+                        </div>
+                        <div class=" py-6 px-5 dark:text-newgray-300 text-black">
+                            <a class=" font-semibold tracker-wide">FOOD ESTATE,</a>
+                            <p class=" font-semibold">SUMATERA UTARA</p>
+                            <p class="mt-4 text-sm">
+                                Proyek pengembangan pangan skala besar (food estate) di Sumatera Utara 
+                            </p>
+                        </div>
+                    </div>
+                    <div class="swiper-slide dark:bg-newgray-800 dark:bg-opacity-4 bg-white  grid grid-cols-1   h-full ">
+                        <div class="relative h-52">
+                            <a class="absolute bottom-2 right-4 text-gray-200 text-sm">HD</a>
+                            <img src="assets/3.jpg" alt="betahita foto" class="h-full w-full object-cover object-center">
+                        </div>
+                        <div class=" py-6 px-5 dark:text-newgray-300 text-black">
+                            <a class=" font-semibold tracker-wide">ORANG UTAN,</a>
+                            <p class=" font-semibold">KALIMANTAN BARAT</p>
+                            <p class="mt-4 text-sm">
+                                Orang Utan di pusat rehabilitasi Camp. Lakey, Taman Nasional Tanjung Puting, Kalimantan Barat
+                            </p>
+                        </div>
+                    </div>
+                    <div class="swiper-slide dark:bg-newgray-800 dark:bg-opacity-4 bg-white  grid grid-cols-1   h-full ">
+                        <div class="relative h-52">
+                            <a class="absolute bottom-2 right-4 text-gray-200 text-sm">HD</a>
+                            <img src="assets/4.jpg" alt="betahita foto" class="h-full w-full object-cover object-center">
+                        </div>
+                        <div class=" py-6 px-5 dark:text-newgray-300 text-black">
+                            <a class=" font-semibold tracker-wide">PEGUNUNGAN ARFAK,</a>
+                            <p class=" font-semibold">PAPUA BARAT</p>
+                            <p class="mt-4 text-sm">
+                                Areal pengunungan Arfak, hutan hujan daratan tinggi habitat Cendrawasih yang kini dijadikan ekowisata
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="absolute inset-y-0 right-0 z-10 flex items-center" x-show="control" style="display: none !important;">
+                <button @click="swiper.slideNext()" 
+                        class="border -mr-5 bg-white text-black hover:text-gray-300  flex justify-center items-center w-10 h-10 rounded-full shadow focus:outline-none">
+                    <svg viewBox="0 0 20 20" fill="currentColor" class="chevron-right w-6 h-6"><path fill-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd"></path></svg>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- content 2 -->
+    <div class="max-w-6xl mx-auto mt-24 px-4 py-4 ">
+        <h1 class="font-bold dark:text-newgray-200 text-black">LINGKUNGAN</h1>
+        <p class=" mt-1 dark:text-gray-500 mb-10">Menilik fenomena kerusakan lingkungan, dari deforestasi hingga lubang tambang</p>
+        <div x-data="{swiper: null, control: false}"
+            x-init="swiper = new Swiper($refs.container, {
+                loop: true,
+                slidesPerView: 1,
+                spaceBetween: 0,
+            
+                breakpoints: {
+                    640: {
+                    slidesPerView: 1,
+                    spaceBetween: 0,
+                    },
+                    768: {
+                    slidesPerView: 2,
+                    spaceBetween: 10,
+                    },
+                    1024: {
+                    slidesPerView: 4,
+                    spaceBetween: 10,
+                    },
+                },
+                })"
+            class="relative w-full mx-auto flex flex-row mt-4  space-x-1"
+            @mouseenter="control=true"
+            @mouseleave="control=false"
+            >
+            <div class="absolute inset-y-0 left-0 z-20 flex items-center " x-show="control" style="display: none !important;">
+                <button @click="swiper.slidePrev()" 
+                        class="bg-white -ml-4 text-black hover:text-gray-300  flex justify-center items-center w-10 h-10 rounded-full shadow focus:outline-none">
+                <svg viewBox="0 0 20 20" fill="currentColor" class="chevron-left w-6 h-6"><path fill-rule="evenodd" d="M12.707 5.293a1 1 0 010 1.414L9.414 10l3.293 3.293a1 1 0 01-1.414 1.414l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 0z" clip-rule="evenodd"></path></svg>
+                </button>
+            </div>
+
+            <div class="swiper-container " x-ref="container">
+                <div class="swiper-wrapper">
+                    <div class="swiper-slide dark:bg-newgray-800 dark:bg-opacity-4 bg-white  grid grid-cols-1   h-full ">
+                        <div class="relative h-52">
+                            <a class="absolute bottom-2 right-4 text-gray-200 text-sm">HD</a>
+                            <img src="assets/5.jpg" alt="betahita foto" class="h-full w-full object-cover object-center">
+                        </div>
+                        <div class=" py-6 px-5 dark:text-newgray-300 text-black">
+                            <a class=" font-semibold tracker-wide">KEBAKARAN GAMBUT,</a>
+                            <p class=" font-semibold">SUMATERA SELATAN</p>
+                            <p class="mt-4 text-sm">
+                                Kebakaran hutan gambung di konsesi PT Bumi Mekar Hijau (BMH), Sumatera Selatan
+                            </p>
+                        </div>
+                    </div>
+                    <div class="swiper-slide dark:bg-newgray-800 dark:bg-opacity-4 bg-white  grid grid-cols-1   h-full ">
+                        <div class="relative h-52">
+                            <a class="absolute bottom-2 right-4 text-gray-200 text-sm">HD</a>
+                            <img src="assets/6.jpg" alt="betahita foto" class="h-full w-full object-cover object-center">
+                        </div>
+                        <div class=" py-6 px-5 dark:text-newgray-300 text-black">
+                            <a class=" font-semibold tracker-wide">KAYU HTI,</a>
+                            <p class=" font-semibold">KALIMANTAN BARAT</p>
+                            <p class="mt-4 text-sm">
+                                Kayu dari HTI di Kalimantan Barat sebagai bahan untuk dijadikan bubur kertas 
+                            </p>
+                        </div>
+                    </div>
+                    <div class="swiper-slide dark:bg-newgray-800 dark:bg-opacity-4 bg-white  grid grid-cols-1   h-full ">
+                        <div class="relative h-52">
+                            <a class="absolute bottom-2 right-4 text-gray-200 text-sm">HD</a>
+                            <img src="assets/7.jpg" alt="betahita foto" class="h-full w-full object-cover object-center">
+                        </div>
+                        <div class=" py-6 px-5 dark:text-newgray-300 text-black">
+                            <a class=" font-semibold tracker-wide">KEBAKARAN HUTAN,</a>
+                            <p class=" font-semibold">KALIMANTAN TENGAH</p>
+                            <p class="mt-4 text-sm">
+                                Kebakaran hutan dan lahan perkebunan sawit di Kalimantan Tengah
+                            </p>
+                        </div>
+                    </div>
+                    <div class="swiper-slide dark:bg-newgray-800 dark:bg-opacity-4 bg-white  grid grid-cols-1   h-full ">
+                        <div class="relative h-52">
+                            <a class="absolute bottom-2 right-4 text-gray-200 text-sm">HD</a>
+                            <img src="assets/8.jpg" alt="betahita foto" class="h-full w-full object-cover object-center">
+                        </div>
+                        <div class=" py-6 px-5 dark:text-newgray-300 text-black">
+                            <a class=" font-semibold tracker-wide">Penebangan Hutan,</a>
+                            <p class=" font-semibold">JAYAPURA, PAPUA</p>
+                            <p class="mt-4 text-sm">
+                                Aktivitas penebangan hutan pada areal perkebunan kelapa sawit PT Permata Nusa Mandiri (PNM)
+                            </p>
+                        </div>
+                    </div>
+                
+                </div>  
+            </div>
+
+            <div class="absolute inset-y-0 right-0 z-10 flex items-center" x-show="control" style="display: none !important;">
+                <button @click="swiper.slideNext()" 
+                        class="border -ml-5 bg-white text-black hover:text-gray-300  flex justify-center items-center w-10 h-10 rounded-full shadow focus:outline-none">
+                <svg viewBox="0 0 20 20" fill="currentColor" class="chevron-right w-6 h-6"><path fill-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd"></path></svg>
+                </button>
+            </div>
+        </div>
+    </div>
+
+
+    <!-- content 3 -->
+    <div class="max-w-6xl mx-auto mt-24 px-4 py-4 mb-6">
+        <div class="flex space-x-2">
+            <h1 class="font-bold dark:text-newgray-200 text-black">MASYARAKAT ADAT</h1>
+            <div class="bg-search h-3 flex items-center space-x-1" x-data="{ tooltip: 'Seluruh hasil penjualan foto pada pubrik ini akan didonasikan kepada masyarakat adat yang kerap terdampak oleh berbagai aktivitas perusakan lingkungan!' }">
+                <a class="text-xss font-semibold">BERGERAK BERSAMA</a>
+                <svg xmlns="http://www.w3.org/2000/svg" x-tooltip="tooltip" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-3 h-3 cursor-pointer active:outline-none focus:outline-none">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M11.25 11.25l.041-.02a.75.75 0 011.063.852l-.708 2.836a.75.75 0 001.063.853l.041-.021M21 12a9 9 0 11-18 0 9 9 0 0118 0zm-9-3.75h.008v.008H12V8.25z" />
+                  </svg>
+                  
+            </div>
+        </div>
+
+        
+        <p class=" mt-1 dark:text-gray-500 mb-10">Koleksi protret kehidupan masyarakat adat indonesia</p>
+        <div x-data="{swiper: null, control: false}"
+            x-init="swiper = new Swiper($refs.container, {
+                loop: true,
+                slidesPerView: 1,
+                spaceBetween: 0,
+            
+                breakpoints: {
+                    640: {
+                    slidesPerView: 1,
+                    spaceBetween: 0,
+                    },
+                    768: {
+                    slidesPerView: 2,
+                    spaceBetween: 10,
+                    },
+                    1024: {
+                    slidesPerView: 1,
+                    spaceBetween: 0,
+                    },
+                },
+                })"
+            class="relative w-full mx-auto flex flex-row mt-4  space-x-1"
+            @mouseenter="control=true"
+            @mouseleave="control=false"
+            >
+            <div class="absolute inset-y-0 left-0 z-20 flex items-center " x-show="control" style="display: none !important;">
+                <button @click="swiper.slidePrev()" 
+                        class="bg-white -ml-4 text-black hover:text-gray-300  flex justify-center items-center w-10 h-10 rounded-full shadow focus:outline-none">
+                <svg viewBox="0 0 20 20" fill="currentColor" class="chevron-left w-6 h-6"><path fill-rule="evenodd" d="M12.707 5.293a1 1 0 010 1.414L9.414 10l3.293 3.293a1 1 0 01-1.414 1.414l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 0z" clip-rule="evenodd"></path></svg>
+                </button>
+            </div>
+
+            <div class="swiper-container " x-ref="container">
+                <div class="swiper-wrapper">
+                    <div class="swiper-slide dark:bg-newgray-800 dark:bg-opacity-4 bg-white  grid grid-cols-1   h-full ">
+                        <div class="relative h-64">
+                            <a class="absolute bottom-2 right-4 text-gray-200 text-sm">HD</a>
+                            <img src="assets/9.jpg" alt="betahita foto" class="h-full w-full object-cover object-center">
+                        </div>
+                        
+                    </div>
+                
+                </div>
+                
+            </div>
+
+            <div class="absolute inset-y-0 right-0 z-10 flex items-center" x-show="control" style="display: none !important;">
+                <button @click="swiper.slideNext()" 
+                        class="border -mr-5 bg-white text-black hover:text-gray-300  flex justify-center items-center w-10 h-10 rounded-full shadow focus:outline-none">
+                <svg viewBox="0 0 20 20" fill="currentColor" class="chevron-right w-6 h-6"><path fill-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd"></path></svg>
+                </button>
+            </div>
+        </div>
+    </div>
+    
+
+
+    <div class="bg-black w-full py-6">
+        <div class="max-w-6xl mx-auto flex justify-between">
+            <div class="flex flex-col  text-newgray-500 h-full w-full">
+                <img src="assets/logo.png" alt="betahita foto" class="w-52 -ml-4">
+                <p class="mt-4">Jalan Ayub No.28 RT 11 / RW 01, Pejateng Barat,</p>
+                <p>Pasar Minggu, Kota Jakarta Selatan, 12510</p>
+                <div class="mt-6 flex space-x-4">
+                    <svg role="img" class="w-6 " fill="white" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><title>Facebook</title><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>
+                    <svg role="img" class="w-6 " fill="white" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><title>X</title><path d="M18.901 1.153h3.68l-8.04 9.19L24 22.846h-7.406l-5.8-7.584-6.638 7.584H.474l8.6-9.83L0 1.154h7.594l5.243 6.932ZM17.61 20.644h2.039L6.486 3.24H4.298Z"/></svg>
+                    <svg role="img" class="w-6 " fill="white" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><title>Instagram</title><path d="M12 0C8.74 0 8.333.015 7.053.072 5.775.132 4.905.333 4.14.63c-.789.306-1.459.717-2.126 1.384S.935 3.35.63 4.14C.333 4.905.131 5.775.072 7.053.012 8.333 0 8.74 0 12s.015 3.667.072 4.947c.06 1.277.261 2.148.558 2.913.306.788.717 1.459 1.384 2.126.667.666 1.336 1.079 2.126 1.384.766.296 1.636.499 2.913.558C8.333 23.988 8.74 24 12 24s3.667-.015 4.947-.072c1.277-.06 2.148-.262 2.913-.558.788-.306 1.459-.718 2.126-1.384.666-.667 1.079-1.335 1.384-2.126.296-.765.499-1.636.558-2.913.06-1.28.072-1.687.072-4.947s-.015-3.667-.072-4.947c-.06-1.277-.262-2.149-.558-2.913-.306-.789-.718-1.459-1.384-2.126C21.319 1.347 20.651.935 19.86.63c-.765-.297-1.636-.499-2.913-.558C15.667.012 15.26 0 12 0zm0 2.16c3.203 0 3.585.016 4.85.071 1.17.055 1.805.249 2.227.415.562.217.96.477 1.382.896.419.42.679.819.896 1.381.164.422.36 1.057.413 2.227.057 1.266.07 1.646.07 4.85s-.015 3.585-.074 4.85c-.061 1.17-.256 1.805-.421 2.227-.224.562-.479.96-.899 1.382-.419.419-.824.679-1.38.896-.42.164-1.065.36-2.235.413-1.274.057-1.649.07-4.859.07-3.211 0-3.586-.015-4.859-.074-1.171-.061-1.816-.256-2.236-.421-.569-.224-.96-.479-1.379-.899-.421-.419-.69-.824-.9-1.38-.165-.42-.359-1.065-.42-2.235-.045-1.26-.061-1.649-.061-4.844 0-3.196.016-3.586.061-4.861.061-1.17.255-1.814.42-2.234.21-.57.479-.96.9-1.381.419-.419.81-.689 1.379-.898.42-.166 1.051-.361 2.221-.421 1.275-.045 1.65-.06 4.859-.06l.045.03zm0 3.678c-3.405 0-6.162 2.76-6.162 6.162 0 3.405 2.76 6.162 6.162 6.162 3.405 0 6.162-2.76 6.162-6.162 0-3.405-2.76-6.162-6.162-6.162zM12 16c-2.21 0-4-1.79-4-4s1.79-4 4-4 4 1.79 4 4-1.79 4-4 4zm7.846-10.405c0 .795-.646 1.44-1.44 1.44-.795 0-1.44-.646-1.44-1.44 0-.794.646-1.439 1.44-1.439.793-.001 1.44.645 1.44 1.439z"/></svg>
+                </div>
+            </div>
+
+            <div class="w-full flex justify-between  ">
+                <div class="flex flex-col">
+                    <a class="text-newgray-200 font-semibold">TENTANG KAMI</a>
+                    <a class="mt-4 text-newgray-500">Tentang Kami</a>
+                    <a class="mt-1 text-newgray-500">Kebijakan Privasi</a>
+                    <a class="mt-1 text-newgray-500">Ketentuan Penggunaan</a>
+                </div>
+                <div class="flex flex-col">
+                    <a class="text-newgray-200 font-semibold">LAYANAN</a>
+                    <a class="mt-4 text-newgray-500">Pembayaran</a>
+                    <a class="mt-1 text-newgray-500">Langganan</a>
+                    <a class="mt-1 text-newgray-500">Customer Service</a>
+                </div>
+                <div class="flex flex-col">
+                    <a class="text-newgray-200 font-semibold">KONTAK KAMI </a>
+                    <a class="mt-4 text-newgray-500">Marketing</a>
+                </div>
+            </div>
+        </div>
+
+        <div class="w-full text-center mt-12">
+            <a class="text-newgray-500">Copyright © 2023 Lakuna Nusantara Media</a>
+        </div>
+    </div>
+ 
+    
+
+    <script src="https://unpkg.com/swiper@6.8.4/swiper-bundle.min.js"></script>
+    <script  src="js/dark.js"></script>
+</body>
+</html>
